@@ -66,14 +66,14 @@
     </style>
 </head>
 <body>
-    <form>
+    <form method="post" action="login">
     <div class="container">
         <label for="uname"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" id="uname" required>
+        <input type="text" name="username"placeholder="Enter Username" id="uname" required>
 
         <label for="psw"><b>Password</b></label>
         <div class="password-container">
-          <input type="password" placeholder="Enter Password" id="psw" required>
+          <input type="password" name="password" placeholder="Enter Password" id="psw" required>
           <div class="eye-icon" onclick="togglePasswordVisibility()">
             <i class="fas fa-eye"></i>
           </div>
