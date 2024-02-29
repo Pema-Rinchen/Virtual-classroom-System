@@ -3,13 +3,15 @@ package com.virtualclassroom.registration;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
 
 @WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
@@ -22,49 +24,48 @@ public class RegistrationServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String role = request.getParameter("role");
-
-        // Basic validation
-        if (name == null || username == null || password == null || role == null ||
-            name.isEmpty() || username.isEmpty() || password.isEmpty() || role.isEmpty()) {
-            response.setContentType("text/html");
-            PrintWriter out = response.getWriter();
-            out.println("<h3>Please fill in all fields</h3>");
-            return;
-        }
-
-        Connection conn = null;
-
+        Connection conn=null;
+        RequestDispatcher dispatcher = null;
+        
         try {
             // Register the JDBC driver
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             // Establish the connection
-            String url = "jdbc:mysql://localhost:3306/java";
+            String url = "jdbc:mysql://localhost:3306/virtual_classroom";
             String dbUsername = "root";
             String dbPassword = "Password@123";
             conn = DriverManager.getConnection(url, dbUsername, dbPassword);
 
             // Print "Connection successful"
             System.out.println("Connection successful");
-
-            // Perform further processing (insert into database, etc.)
-            // This is where you would insert the registration data into your database
-            // using a PreparedStatement or other database manipulation logic.
+            
+            PreparedStatement pst = conn.prepareStatement("insert into users (name,Username,Password,roleid) values(?,?,?,?)");
+            pst.setString(1, name);
+            pst.setString(2, username);
+            pst.setString(3, password);
+            pst.setString(4, role);
+            int rowCount=pst.executeUpdate();
+            
+            dispatcher = request.getRequestDispatcher("/register.jsp");
+            if (rowCount>0) {
+            	request.setAttribute("status", "success");
+            	 
+            }
+            else {
+            	request.setAttribute("status", "fail");
+            }
+            dispatcher.forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
-            // Handle database connection or other errors
-            response.setContentType("text/html");
-            PrintWriter out = response.getWriter();
-            out.println("<h3>Error: " + e.getMessage() + "</h3>");
-        } finally {
-            // Close the connection
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+        }
+        finally {
+        	try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
     }
 }
