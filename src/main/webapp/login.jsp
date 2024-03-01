@@ -67,7 +67,7 @@
 </head>
 <body>
     <form method="post" action="login">
-    <div class="container">
+    <div class="container"><i class="fa-duotone fa-user"></i>
         <label for="uname"><b>Username</b></label>
         <input type="text" name="username"placeholder="Enter Username" id="uname" required>
 
