@@ -45,6 +45,7 @@ public class RegistrationServlet extends HttpServlet {
             pst.setString(2, username);
             pst.setString(3, password);
             pst.setString(4, role);
+		// this is forign key
             int rowCount=pst.executeUpdate();
             
             dispatcher = request.getRequestDispatcher("/register.jsp");
