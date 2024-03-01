@@ -52,7 +52,8 @@
         </div>
     </section>
     <section class="mid">
-        <p>a,sdnasdas s</p>
+        add something 
+        <p>a,sdnasdas s fjnb</p>
     </section>
     <section class="right">
         <a>Your Attendance</a>
