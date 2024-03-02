@@ -1,8 +1,5 @@
-<%
-	if (session.getAttribute("name")==null){
-		response.sendRedirect("login.jsp");
-	}
-%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,6 +32,16 @@
         width: 60px;
         height: 60px;
     }
+    .progress-bar-wrap {
+        width: 100%;
+        background-color: #f3f3f3;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+    .progress-bar {
+        height: 20px;
+        background-color: #4caf50;
+    }
 </style>
 </head>
 <body>
@@ -52,11 +59,37 @@
         </div>
     </section>
     <section class="mid">
-        add something 
-        <p>a,sdnasdas s fjnb</p>
+        <p>a,sdnasdas s</p>
     </section>
     <section class="right">
-        <a>Your Attendance</a>
+        <%
+            String user = (String) session.getAttribute("name");
+            int totalClasses = 10;
+            int attendedClasses = 4;
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/virtual_classroom", "root", "Password@123");
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM classes WHERE user='" + user + "'");
+                if (rs.next()) {
+                    totalClasses = rs.getInt(1);
+                }
+                rs = stmt.executeQuery("SELECT COUNT(*) FROM attendance WHERE user='" + user + "' AND status='Present'");
+                if (rs.next()) {
+                    attendedClasses = rs.getInt(1);
+                }
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            int percentage = (int) (((double) attendedClasses / totalClasses) * 100);
+        %>
+        <div class="progress">
+            <span class="skill">My attendence <i class="val"><%= percentage %>%</i></span>
+            <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="<%= percentage %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= percentage %>%"></div>
+            </div>
+        </div>
     </section>
 </body>
 </html>
