@@ -23,7 +23,7 @@
         .container input[type="text"], .container input[type="password"] {
             width: 100%;
             padding: 12px 20px;
-            margin: 8px 0;
+            margin: 5px 0;
             box-sizing: border-box;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -32,7 +32,7 @@
             background-color: #4CAF50;
             color: white;
             padding: 14px 20px;
-            margin: 8px 0;
+            margin: 10px 0;
             border: none;
             cursor: pointer;
             width: 100%;
@@ -45,14 +45,7 @@
             position: relative;
             width: 100%;
         }
-        .password-container input[type="password"] {
-            width: 100%;
-            padding: 12px 20px 12px 40px;
-            margin: 8px 0;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
+      
         .eye-icon {
             position: absolute;
             right: 10px;
@@ -67,11 +60,14 @@
 </head>
 <body>
     <form method="post" action="login">
-    <div class="container"><i class="fa-duotone fa-user"></i>
+    <div class="container">
         <label for="uname"><b>Username</b></label>
+        <%--<i class="fas fa-user"></i> --%>
+            
         <input type="text" name="username"placeholder="Enter Username" id="uname" required>
 
         <label for="psw"><b>Password</b></label>
+        <%-- <i class="fas fa-lock"></i>--%>
         <div class="password-container">
           <input type="password" name="password" placeholder="Enter Password" id="psw" required>
           <div class="eye-icon" onclick="togglePasswordVisibility()">
@@ -84,12 +80,12 @@
 </form>
     <script>
         function togglePasswordVisibility() {
-          const passwordInput = document.getElementById('psw');
-          if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-          } else {
-            passwordInput.type = 'password';
-          }
+            const passwordInput = document.getElementById('psw');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+            } else {
+                passwordInput.type = 'password';
+            }
         }
     </script>
 </body>
